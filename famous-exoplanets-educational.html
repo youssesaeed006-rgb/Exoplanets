@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exoplanets: Beyond Our Solar System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* variables and foundational configurations */
+    :root {
+      --color-cosmic-dark: #0a0015;
+      --color-cosmic-purple: #1a0030;
+      --color-cosmic-indigo: #0d0a2e;
+      
+      --color-neon-blue: #00d4ff;
+      --color-neon-violet: #9b59ff;
+      --color-neon-orange: #ff7b35;
+      --color-neon-teal: #00ffcc;
+      
+      --font-display: 'Orbitron', system-ui, sans-serif;
+      --font-sans: 'Exo 2', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-sans);
+      background-color: var(--color-cosmic-dark);
+      color: #e2e8f0;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 10%, var(--color-cosmic-indigo) 0%, var(--color-cosmic-purple) 40%, var(--color-cosmic-dark) 100%);
+    }
+
+    /* Webkit scrollbar customization */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060110;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #25134a;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #421e82;
+    }
+
+    /* Container defaults */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(10, 0, 21, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(155, 89, 255, 0.15);
+      padding: 15px 0;
+    }
+
+    .header-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      background: linear-gradient(90deg, var(--color-neon-blue), var(--color-neon-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-neon-blue);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: var(--color-neon-blue);
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* Hero Section */
+    #hero {
+      position: relative;
+      padding: 140px 0 80px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+
+    .hero-pre {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      color: var(--color-neon-blue);
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .pulse-btn {
+      font-family: var(--font-display);
+      background: linear-gradient(90deg, #00d4ff, #9b59ff);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s, box-shadow 0.3s;
+      animation: pulse-btn-anim 2.5s infinite;
+    }
+
+    .pulse-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse-btn-anim {
+      0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(0, 212, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+    }
+
+    /* Section defaults */
+    .section-title-wrap {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-top: 80px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      background: var(--color-neon-blue);
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-top: 25px;
+    }
+
+    /* Planet Card Layout */
+    .planets-container {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      margin-bottom: 100px;
+    }
+
+    .planet-card {
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .planet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #060110;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .planet-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out, transform 0.5s ease;
+    }
+
+    .planet-card:hover .planet-img {
+      transform: scale(1.05);
+    }
+
+    /* fallback gradient display */
+    .image-overlay-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .fallback-orb {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 12%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%);
+      margin-bottom: 15px;
+    }
+
+    .fallback-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+    }
+
+    /* Habitability components */
+    .habitability-section {
+      margin-top: 25px;
+      padding: 15px 20px;
+      background-color: rgba(6, 1, 16, 0.6);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .habitability-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .habitability-title {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      color: #94a3b8;
+    }
+
+    .habitability-val {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .score-bar-bg {
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    /* Planet Info */
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .planet-name-heading {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .badge {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+
+    .stats-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .stats-list li {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .stats-list strong {
+      color: #fff;
+    }
+
+    .symbol {
+      margin-right: 8px;
+      font-size: 0.95rem;
+    }
+
+    .expand-btn {
+      font-family: var(--font-display);
+      background-color: transparent;
+      border: 1.5px solid;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .expand-btn:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+      transform: translateY(-2px);
+    }
+
+    .expand-btn .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .expand-btn.active .arrow {
+      transform: rotate(180deg);
+    }
+
+    .details-paragraph {
+      margin-top: 20px;
+      line-height: 1.7;
+      color: #94a3b8;
+      overflow: hidden;
+      max-height: 500px;
+      transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin 0.3s ease;
+    }
+
+    .details-paragraph.collapsed {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      pointer-events: none;
+    }
+
+    /* Comparison Table UI */
+    .comparison-wrapper {
+      background: rgba(13, 10, 46, 0.5);
+      border: 1px solid rgba(155, 89, 255, 0.15);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 100px;
+      overflow-x: auto;
+    }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .comp-table th {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-neon-blue);
+      padding: 15px 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .comp-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .td-planet {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .table-habitability {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .table-score {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      min-width: 40px;
+    }
+
+    .mini-bar {
+      flex-grow: 1;
+      max-width: 120px;
+      height: 6px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .mini-fill {
+      height: 100%;
+    }
+
+    /* Cosmic Trivia Cards Grid */
+    .trivia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-bottom: 100px;
+    }
+
+    .trivia-card {
+      background-color: transparent;
+      perspective: 1000px;
+      height: 240px;
+      cursor: pointer;
+    }
+
+    .trivia-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+
+    .trivia-card.flipped .trivia-inner {
+      transform: rotateY(180deg);
+    }
+
+    .trivia-front, .trivia-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(155, 89, 255, 0.15);
+    }
+
+    .trivia-front {
+      background: linear-gradient(135deg, rgba(20, 10, 50, 0.8), rgba(6, 1, 16, 0.95));
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .trivia-back {
+      background: linear-gradient(135deg, #150036, var(--color-cosmic-dark));
+      transform: rotateY(180deg);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+
+    .trivia-icon {
+      font-size: 1.5rem;
+      color: var(--color-neon-blue);
+    }
+
+    .trivia-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+      margin-top: 10px;
+    }
+
+    .click-reveal-hint {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .click-reveal-hint-back {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      color: var(--color-neon-blue);
+      text-transform: uppercase;
+      margin-top: 15px;
+    }
+
+    .trivia-body {
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Glow Definitions */
+    .glow-blue {
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.05);
+    }
+    .glow-blue:hover {
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.35), 0 0 10px rgba(155, 89, 255, 0.15);
+      border-color: rgba(0, 212, 255, 0.6) !important;
+    }
+
+    .glow-violet {
+      box-shadow: 0 0 15px rgba(155, 89, 255, 0.05);
+    }
+    .glow-violet:hover {
+      box-shadow: 0 0 30px rgba(155, 89, 255, 0.35), 0 0 10px rgba(0, 255, 204, 0.15);
+      border-color: rgba(155, 89, 255, 0.6) !important;
+    }
+
+    .glow-orange {
+      box-shadow: 0 0 15px rgba(255, 123, 53, 0.05);
+    }
+    .glow-orange:hover {
+      box-shadow: 0 0 30px rgba(255, 123, 53, 0.35), 0 0 10px rgba(155, 89, 255, 0.15);
+      border-color: rgba(255, 123, 53, 0.6) !important;
+    }
+
+    .glow-teal {
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.05);
+    }
+    .glow-teal:hover {
+      box-shadow: 0 0 30px rgba(0, 255, 204, 0.35), 0 0 10px rgba(0, 212, 255, 0.15);
+      border-color: rgba(0, 255, 204, 0.6) !important;
+    }
+
+    /* Space Background Stars Canvas */
+    #stars-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* About exhibition panel */
+    .about-box {
+      background: radial-gradient(circle at top right, rgba(30, 10, 60, 0.4), rgba(10, 0, 25, 0.9));
+      border: 1px solid rgba(155, 89, 255, 0.15);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 100px;
+    }
+
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .about-text {
+      color: #94a3b8;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+    }
+
+    /* Footer styles */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background-color: #04000a;
+      padding: 40px 0;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+    }
+
+    .footer-archive {
+      color: #64748b;
+      margin-bottom: 15px;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+    }
+
+    /* animations on scroll support */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal-on-scroll.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 968px) {
+      .planet-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .planet-card {
+        padding: 25px;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .logo {
+        font-size: 1rem;
+      }
+      .nav-links {
+        gap: 15px;
+      }
+      .nav-links a {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-nav {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .info-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .planet-name-heading {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <header>
+    <div class="container header-nav">
+      <a href="#home" class="logo">✦ EXOPLANET<span>MUSEUM</span></a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#planets">Planets</a></li>
+        <li><a href="#comparison">Compare</a></li>
+        <li><a href="#facts">Fun Facts</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section id="home">
+      <div id="hero">
+        <span class="hero-pre">Educational Exhibition</span>
+        <h1 class="hero-title">Beyond Our Solar System</h1>
+        <p class="hero-subtitle">Embark on a voyage across the cosmic depths to discover five of the most unique, volatile, and hopeful planets orbiting alien stars.</p>
+        <a href="#planets" class="pulse-btn">Explore Now</a>
+      </div>
+    </section>
+
+    <!-- Planet Cards Section -->
+    <section id="planets">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Catalogue of Alien Worlds</h2>
+        <p class="section-subtitle">Explanatory Dossier covering Radius, Gravity, Orbit and Habitation metrics.</p>
+      </div>
+      
+      <div class="planets-container">
+        
+    <article class="planet-card glow-blue reveal-on-scroll" id="planet-kepler-452b" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(13, 10, 46, 0.95)); border: 1px solid rgba(0, 212, 255, 0.25);">
+      <div class="planet-grid">
+        <div class="planet-visual">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Kepler-452b_artist_concept.jpg/800px-Kepler-452b_artist_concept.jpg" alt="Kepler-452b" class="planet-img" crossorigin="anonymous" onload="this.style.opacity=1" onerror="handleImageError(this, 'Kepler-452b', 'from-blue-900 via-indigo-950 to-amber-900')">
+            <div class="image-overlay-fallback" style="background: linear-gradient(135deg, var(--color-cosmic-purple), var(--color-cosmic-indigo)); opacity: 0;">
+              <div class="fallback-orb" style="box-shadow: 0 0 50px #00d4ff"></div>
+              <span class="fallback-name">Kepler-452b</span>
+            </div>
+          </div>
+          <div class="habitability-section">
+            <div class="habitability-header">
+              <span class="habitability-title">✦ Habitability Score</span>
+              <span class="habitability-val" style="color: #00d4ff">7/10</span>
+            </div>
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width: 70%; background: linear-gradient(90deg, #00d4ff, #ffffff)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="planet-info">
+          <div class="info-header">
+            <h3 class="planet-name-heading">Kepler-452b</h3>
+            <span class="badge" style="background-color: rgba(0, 212, 255, 0.15); border: 1px solid #00d4ff; color: #00d4ff;">
+              Earth's Cousin
+            </span>
+          </div>
+
+          <ul class="stats-list">
+            <li><span class="symbol" style="color: #00d4ff">✦</span> <strong>Distance:</strong> 1,400 light-years</li>
+            <li><span class="symbol" style="color: #00d4ff">◈</span> <strong>Star Type:</strong> G-type (similar to our Sun)</li>
+            <li><span class="symbol" style="color: #00d4ff">⬡</span> <strong>Year Length:</strong> 385 Earth days</li>
+            <li><span class="symbol" style="color: #00d4ff">✦</span> <strong>Size (Radius):</strong> ~1.6x Earth's radius (Super-Earth)</li>
+            <li><span class="symbol" style="color: #00d4ff">◈</span> <strong>Discovery:</strong> 2015 by NASA Kepler Space Telescope</li>
+            <li><span class="symbol" style="color: #00d4ff">⬡</span> <strong>Zone Quality:</strong> Lies in the habitable zone of its star — liquid water could exist</li>
+          </ul>
+
+          <button class="expand-btn" style="border-color: #00d4ff; color: #00d4ff;" onclick="toggleDetails('kepler-452b')" id="expand-btn-kepler-452b">
+            Learn More <span class="arrow">↓</span>
+          </button>
+          
+          <div class="details-paragraph collapsed" id="details-kepler-452b">
+            <p>Kepler-452b is one of the most Earth-like planets ever found. It orbits a star very similar to our Sun at nearly the same distance. Scientists believe it could have a rocky surface, active volcanoes, and possibly even an atmosphere. It is the closest match to Earth in size and orbit ever confirmed.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+
+    <article class="planet-card glow-violet reveal-on-scroll" id="planet-trappist-1e" style="background: linear-gradient(135deg, rgba(155, 89, 255, 0.2), rgba(13, 10, 46, 0.95)); border: 1px solid rgba(155, 89, 255, 0.25);">
+      <div class="planet-grid">
+        <div class="planet-visual">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/TRAPPIST-1e_artist_impression_2018.png/800px-TRAPPIST-1e_artist_impression_2018.png" alt="TRAPPIST-1e" class="planet-img" crossorigin="anonymous" onload="this.style.opacity=1" onerror="handleImageError(this, 'TRAPPIST-1e', 'from-purple-900 via-violet-950 to-red-950')">
+            <div class="image-overlay-fallback" style="background: linear-gradient(135deg, var(--color-cosmic-purple), var(--color-cosmic-indigo)); opacity: 0;">
+              <div class="fallback-orb" style="box-shadow: 0 0 50px #9b59ff"></div>
+              <span class="fallback-name">TRAPPIST-1e</span>
+            </div>
+          </div>
+          <div class="habitability-section">
+            <div class="habitability-header">
+              <span class="habitability-title">✦ Habitability Score</span>
+              <span class="habitability-val" style="color: #9b59ff">9/10</span>
+            </div>
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width: 90%; background: linear-gradient(90deg, #9b59ff, #ffffff)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="planet-info">
+          <div class="info-header">
+            <h3 class="planet-name-heading">TRAPPIST-1e</h3>
+            <span class="badge" style="background-color: rgba(155, 89, 255, 0.15); border: 1px solid #9b59ff; color: #9b59ff;">
+              The Habitable Hope
+            </span>
+          </div>
+
+          <ul class="stats-list">
+            <li><span class="symbol" style="color: #9b59ff">✦</span> <strong>Distance:</strong> 39 light-years</li>
+            <li><span class="symbol" style="color: #9b59ff">◈</span> <strong>Star Type:</strong> Ultra-cool red dwarf</li>
+            <li><span class="symbol" style="color: #9b59ff">⬡</span> <strong>Year Length:</strong> ~9.2 Earth days</li>
+            <li><span class="symbol" style="color: #9b59ff">✦</span> <strong>Size (Radius):</strong> ~0.92x Earth's radius (slightly smaller than Earth)</li>
+            <li><span class="symbol" style="color: #9b59ff">◈</span> <strong>Discovery:</strong> 2017 by the TRAPPIST telescope (Belgium)</li>
+            <li><span class="symbol" style="color: #9b59ff">⬡</span> <strong>Zone Quality:</strong> Strong candidate for liquid water and Earth-like conditions</li>
+          </ul>
+
+          <button class="expand-btn" style="border-color: #9b59ff; color: #9b59ff;" onclick="toggleDetails('trappist-1e')" id="expand-btn-trappist-1e">
+            Learn More <span class="arrow">↓</span>
+          </button>
+          
+          <div class="details-paragraph collapsed" id="details-trappist-1e">
+            <p>TRAPPIST-1e is one of seven rocky planets orbiting the tiny red star TRAPPIST-1, and it sits in the most promising part of its habitable zone. Being relatively close to Earth at just 39 light-years, it is a top target for the James Webb Space Telescope to study its atmosphere. Scientists consider it one of the best candidates for extraterrestrial life ever identified.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+
+    <article class="planet-card glow-orange reveal-on-scroll" id="planet-cancri-55-e" style="background: linear-gradient(135deg, rgba(255, 123, 53, 0.2), rgba(13, 10, 46, 0.95)); border: 1px solid rgba(255, 123, 53, 0.25);">
+      <div class="planet-grid">
+        <div class="planet-visual">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/55_Cancri_e_-_artist_impression.jpg/800px-55_Cancri_e_-_artist_impression.jpg" alt="55 Cancri e" class="planet-img" crossorigin="anonymous" onload="this.style.opacity=1" onerror="handleImageError(this, '55 Cancri e', 'from-red-900 via-orange-950 to-yellow-900')">
+            <div class="image-overlay-fallback" style="background: linear-gradient(135deg, var(--color-cosmic-purple), var(--color-cosmic-indigo)); opacity: 0;">
+              <div class="fallback-orb" style="box-shadow: 0 0 50px #ff7b35"></div>
+              <span class="fallback-name">55 Cancri e</span>
+            </div>
+          </div>
+          <div class="habitability-section">
+            <div class="habitability-header">
+              <span class="habitability-title">✦ Habitability Score</span>
+              <span class="habitability-val" style="color: #ff7b35">1/10</span>
+            </div>
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width: 10%; background: linear-gradient(90deg, #ff7b35, #ffffff)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="planet-info">
+          <div class="info-header">
+            <h3 class="planet-name-heading">55 Cancri e</h3>
+            <span class="badge" style="background-color: rgba(255, 123, 53, 0.15); border: 1px solid #ff7b35; color: #ff7b35;">
+              The Diamond World
+            </span>
+          </div>
+
+          <ul class="stats-list">
+            <li><span class="symbol" style="color: #ff7b35">✦</span> <strong>Distance:</strong> 41 light-years</li>
+            <li><span class="symbol" style="color: #ff7b35">◈</span> <strong>Star Type:</strong> G-type binary star</li>
+            <li><span class="symbol" style="color: #ff7b35">⬡</span> <strong>Year Length:</strong> ~18 Earth hours</li>
+            <li><span class="symbol" style="color: #ff7b35">✦</span> <strong>Size (Radius):</strong> ~2x Earth's radius (Super-Earth)</li>
+            <li><span class="symbol" style="color: #ff7b35">◈</span> <strong>Discovery:</strong> 2004 by Confirmed 2011</li>
+            <li><span class="symbol" style="color: #ff7b35">⬡</span> <strong>Zone Quality:</strong> Not habitable — surface temperature ~2,400°C (4,350°F)</li>
+          </ul>
+
+          <button class="expand-btn" style="border-color: #ff7b35; color: #ff7b35;" onclick="toggleDetails('cancri-55-e')" id="expand-btn-cancri-55-e">
+            Learn More <span class="arrow">↓</span>
+          </button>
+          
+          <div class="details-paragraph collapsed" id="details-cancri-55-e">
+            <p>55 Cancri e is a super-Earth so close to its host star that a year lasts less than a day. Its surface is believed to be covered in molten lava oceans. Fascinatingly, the planet's interior may be rich in carbon under extreme pressure — creating conditions where diamonds could form deep beneath the surface. The James Webb Space Telescope detected hints of a volatile atmosphere in 2024.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+
+    <article class="planet-card glow-teal reveal-on-scroll" id="planet-k2-18b" style="background: linear-gradient(135deg, rgba(0, 255, 204, 0.2), rgba(13, 10, 46, 0.95)); border: 1px solid rgba(0, 255, 204, 0.25);">
+      <div class="planet-grid">
+        <div class="planet-visual">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/K2-18b_%28crop%29.jpg/800px-K2-18b_%28crop%29.jpg" alt="K2-18b" class="planet-img" crossorigin="anonymous" onload="this.style.opacity=1" onerror="handleImageError(this, 'K2-18b', 'from-blue-900 via-teal-950 to-blue-950')">
+            <div class="image-overlay-fallback" style="background: linear-gradient(135deg, var(--color-cosmic-purple), var(--color-cosmic-indigo)); opacity: 0;">
+              <div class="fallback-orb" style="box-shadow: 0 0 50px #00ffcc"></div>
+              <span class="fallback-name">K2-18b</span>
+            </div>
+          </div>
+          <div class="habitability-section">
+            <div class="habitability-header">
+              <span class="habitability-title">✦ Habitability Score</span>
+              <span class="habitability-val" style="color: #00ffcc">8/10</span>
+            </div>
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width: 80%; background: linear-gradient(90deg, #00ffcc, #ffffff)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="planet-info">
+          <div class="info-header">
+            <h3 class="planet-name-heading">K2-18b</h3>
+            <span class="badge" style="background-color: rgba(0, 255, 204, 0.15); border: 1px solid #00ffcc; color: #00ffcc;">
+              The Ocean World
+            </span>
+          </div>
+
+          <ul class="stats-list">
+            <li><span class="symbol" style="color: #00ffcc">✦</span> <strong>Distance:</strong> 124 light-years</li>
+            <li><span class="symbol" style="color: #00ffcc">◈</span> <strong>Star Type:</strong> Red dwarf (M-type)</li>
+            <li><span class="symbol" style="color: #00ffcc">⬡</span> <strong>Year Length:</strong> ~33 Earth days</li>
+            <li><span class="symbol" style="color: #00ffcc">✦</span> <strong>Size (Radius):</strong> ~2.7x Earth's radius (Sub-Neptune)</li>
+            <li><span class="symbol" style="color: #00ffcc">◈</span> <strong>Discovery:</strong> 2015 by Kepler K2 mission</li>
+            <li><span class="symbol" style="color: #00ffcc">⬡</span> <strong>Zone Quality:</strong> Possible "Hycean" world — a planet with a hydrogen atmosphere over a vast liquid water ocean</li>
+          </ul>
+
+          <button class="expand-btn" style="border-color: #00ffcc; color: #00ffcc;" onclick="toggleDetails('k2-18b')" id="expand-btn-k2-18b">
+            Learn More <span class="arrow">↓</span>
+          </button>
+          
+          <div class="details-paragraph collapsed" id="details-k2-18b">
+            <p>K2-18b made global headlines in 2023 when the James Webb Space Telescope detected carbon dioxide, methane, and possibly dimethyl sulfide in its atmosphere — a molecule on Earth produced only by living organisms. While not confirmed, this makes K2-18b one of the most talked-about planets in the search for life beyond Earth.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+
+    <article class="planet-card glow-violet reveal-on-scroll" id="planet-lhs-1140b" style="background: linear-gradient(135deg, rgba(155, 89, 255, 0.2), rgba(13, 10, 46, 0.95)); border: 1px solid rgba(155, 89, 255, 0.25);">
+      <div class="planet-grid">
+        <div class="planet-visual">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/LHS_1140b.jpg/800px-LHS_1140b.jpg" alt="LHS 1140b" class="planet-img" crossorigin="anonymous" onload="this.style.opacity=1" onerror="handleImageError(this, 'LHS 1140b', 'from-indigo-900 via-slate-950 to-blue-900')">
+            <div class="image-overlay-fallback" style="background: linear-gradient(135deg, var(--color-cosmic-purple), var(--color-cosmic-indigo)); opacity: 0;">
+              <div class="fallback-orb" style="box-shadow: 0 0 50px #9b59ff"></div>
+              <span class="fallback-name">LHS 1140b</span>
+            </div>
+          </div>
+          <div class="habitability-section">
+            <div class="habitability-header">
+              <span class="habitability-title">✦ Habitability Score</span>
+              <span class="habitability-val" style="color: #9b59ff">9/10</span>
+            </div>
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width: 90%; background: linear-gradient(90deg, #9b59ff, #ffffff)"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="planet-info">
+          <div class="info-header">
+            <h3 class="planet-name-heading">LHS 1140b</h3>
+            <span class="badge" style="background-color: rgba(155, 89, 255, 0.15); border: 1px solid #9b59ff; color: #9b59ff;">
+              The Quiet Guardian
+            </span>
+          </div>
+
+          <ul class="stats-list">
+            <li><span class="symbol" style="color: #9b59ff">✦</span> <strong>Distance:</strong> 49 light-years</li>
+            <li><span class="symbol" style="color: #9b59ff">◈</span> <strong>Star Type:</strong> Quiet red dwarf (M-type)</li>
+            <li><span class="symbol" style="color: #9b59ff">⬡</span> <strong>Year Length:</strong> ~25 Earth days</li>
+            <li><span class="symbol" style="color: #9b59ff">✦</span> <strong>Size (Radius):</strong> ~1.7x Earth's radius (Super-Earth)</li>
+            <li><span class="symbol" style="color: #9b59ff">◈</span> <strong>Discovery:</strong> 2017 by MEarth Project</li>
+            <li><span class="symbol" style="color: #9b59ff">⬡</span> <strong>Zone Quality:</strong> Top-ranked candidate for a rocky habitable world with a stable atmosphere</li>
+          </ul>
+
+          <button class="expand-btn" style="border-color: #9b59ff; color: #9b59ff;" onclick="toggleDetails('lhs-1140b')" id="expand-btn-lhs-1140b">
+            Learn More <span class="arrow">↓</span>
+          </button>
+          
+          <div class="details-paragraph collapsed" id="details-lhs-1140b">
+            <p>LHS 1140b orbits a remarkably calm red dwarf star — making it special because most red dwarfs blast their planets with intense radiation. Its quiet star, combined with its position in the habitable zone and hints of a nitrogen-rich atmosphere detected by JWST, make it arguably the most promising rocky world for habitability known today.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+      </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="reveal-on-scroll">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Comparative Spectroscopy</h2>
+        <p class="section-subtitle">Compare variables of the exoplanetary bodies side by side.</p>
+      </div>
+
+      <div class="comparison-wrapper">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Planet Name</th>
+              <th>Distance from Earth</th>
+              <th>Radius (Size)</th>
+              <th>Year Period</th>
+              <th>Habitability Potential</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+    <tr>
+      <td class="td-planet" style="color: #00d4ff">✦ Kepler-452b</td>
+      <td>1,400 light-years</td>
+      <td>~1.6x Earth's radius (Super-Earth)</td>
+      <td>385 Earth days</td>
+      <td>
+        <div class="table-habitability">
+          <span class="table-score">7/10</span>
+          <div class="mini-bar"><div class="mini-fill" style="width: 70%; background-color: #00d4ff;"></div></div>
+        </div>
+      </td>
+    </tr>
+    
+
+    <tr>
+      <td class="td-planet" style="color: #9b59ff">✦ TRAPPIST-1e</td>
+      <td>39 light-years</td>
+      <td>~0.92x Earth's radius (slightly smaller than Earth)</td>
+      <td>~9.2 Earth days</td>
+      <td>
+        <div class="table-habitability">
+          <span class="table-score">9/10</span>
+          <div class="mini-bar"><div class="mini-fill" style="width: 90%; background-color: #9b59ff;"></div></div>
+        </div>
+      </td>
+    </tr>
+    
+
+    <tr>
+      <td class="td-planet" style="color: #ff7b35">✦ 55 Cancri e</td>
+      <td>41 light-years</td>
+      <td>~2x Earth's radius (Super-Earth)</td>
+      <td>~18 Earth hours</td>
+      <td>
+        <div class="table-habitability">
+          <span class="table-score">1/10</span>
+          <div class="mini-bar"><div class="mini-fill" style="width: 10%; background-color: #ff7b35;"></div></div>
+        </div>
+      </td>
+    </tr>
+    
+
+    <tr>
+      <td class="td-planet" style="color: #00ffcc">✦ K2-18b</td>
+      <td>124 light-years</td>
+      <td>~2.7x Earth's radius (Sub-Neptune)</td>
+      <td>~33 Earth days</td>
+      <td>
+        <div class="table-habitability">
+          <span class="table-score">8/10</span>
+          <div class="mini-bar"><div class="mini-fill" style="width: 80%; background-color: #00ffcc;"></div></div>
+        </div>
+      </td>
+    </tr>
+    
+
+    <tr>
+      <td class="td-planet" style="color: #00d4ff">✦ LHS 1140b</td>
+      <td>49 light-years</td>
+      <td>~1.7x Earth's radius (Super-Earth)</td>
+      <td>~25 Earth days</td>
+      <td>
+        <div class="table-habitability">
+          <span class="table-score">9/10</span>
+          <div class="mini-bar"><div class="mini-fill" style="width: 90%; background-color: #00d4ff;"></div></div>
+        </div>
+      </td>
+    </tr>
+    
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Educational Description About Exhibition -->
+    <section class="reveal-on-scroll">
+      <div class="about-box">
+        <h3 class="about-heading font-display text-white">Understanding Cosmic Habitability Indices</h3>
+        <p class="about-text">
+          Earth is our baseline for comparison, but the universe is filled with incredible diversity. Telescopes like Kepler, Trappist, and now the powerhouse <strong>James Webb Space Telescope (JWST)</strong> utilize light transit spectroscopy to analyze compounds in the atmospheric layers of planets trillions of miles away. 
+        </p>
+        <p class="about-text">
+          Our habitability scores represent a comparative metric factoring in stellar emission stability, atmospheric thermal equilibrium, and surface rock configuration. From scorching lava oceans to possible diamonds and vast waterworlds, these five planets exemplify the magnificent exoplanetary frontier.
+        </p>
+      </div>
+    </section>
+
+    <!-- Cosmic Trivia / Fun Facts -->
+    <section id="facts" class="reveal-on-scroll">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Cosmic Trivia</h2>
+        <p class="section-subtitle">Fascinating insights into the mechanics of astrophysics and discovery.</p>
+      </div>
+
+      <div class="trivia-grid">
+        
+    <div class="trivia-card" onclick="flipTriviaCard(this)">
+      <div class="trivia-inner">
+        <div class="trivia-front">
+          <div class="trivia-icon">✦</div>
+          <h4 class="trivia-title">Defining the Cosmic Distance: What is a Light-Year?</h4>
+          <span class="click-reveal-hint">Click to Reveal Discovery Details</span>
+        </div>
+        <div class="trivia-back">
+          <p class="trivia-body">A light-year is the speed at which light travels in one Julian year—nearly 6 trillion miles (9.46 trillion km). Traveling at the speed of Voyager 1 (the fastest spacecraft leaving our system), it would take about 70,000 years to reach the nearest exoplanet, Proxima Centauri b!</p>
+          <span class="click-reveal-hint-back">Click to Return</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="trivia-card" onclick="flipTriviaCard(this)">
+      <div class="trivia-inner">
+        <div class="trivia-front">
+          <div class="trivia-icon">✦</div>
+          <h4 class="trivia-title">Cosmic Census: How Many Planets Have Been Found?</h4>
+          <span class="click-reveal-hint">Click to Reveal Discovery Details</span>
+        </div>
+        <div class="trivia-back">
+          <p class="trivia-body">Over 5,500 exoplanets are officially confirmed in NASA's Database, which is only a minute fraction of the billions of planets suspected to belong to the Milky Way. Every star in our night sky is believed to host at least one exoplanet!</p>
+          <span class="click-reveal-hint-back">Click to Return</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="trivia-card" onclick="flipTriviaCard(this)">
+      <div class="trivia-inner">
+        <div class="trivia-front">
+          <div class="trivia-icon">✦</div>
+          <h4 class="trivia-title">Goldilocks Zone: Circumstellar Habitable Ranges</h4>
+          <span class="click-reveal-hint">Click to Reveal Discovery Details</span>
+        </div>
+        <div class="trivia-back">
+          <p class="trivia-body">The habitable zone is the orbital band around a star where thermodynamic equilibrium allows surface pressures capable of sustaining liquid water. It isn't too hot, and isn't too cold—satisfying the conditions needed for structural carbon biology.</p>
+          <span class="click-reveal-hint-back">Click to Return</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="trivia-card" onclick="flipTriviaCard(this)">
+      <div class="trivia-inner">
+        <div class="trivia-front">
+          <div class="trivia-icon">✦</div>
+          <h4 class="trivia-title">Detection Methods: Finding Invisible Worlds</h4>
+          <span class="click-reveal-hint">Click to Reveal Discovery Details</span>
+        </div>
+        <div class="trivia-back">
+          <p class="trivia-body">Exoplanets are usually too dim to see directly. Most are discovered via the Transit Method (observing small periodic dips of a star's brightness) or the Radial Velocity Method (observing gravitational wobbles in a star's spectral signatures).</p>
+          <span class="click-reveal-hint-back">Click to Return</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="trivia-card" onclick="flipTriviaCard(this)">
+      <div class="trivia-inner">
+        <div class="trivia-front">
+          <div class="trivia-icon">✦</div>
+          <h4 class="trivia-title">The Wanderers: Rogue Planets Drift in Solitude</h4>
+          <span class="click-reveal-hint">Click to Reveal Discovery Details</span>
+        </div>
+        <div class="trivia-back">
+          <p class="trivia-body">Rogue planets are worlds expelled during early solar dynamics that wander through interstellar space in absolute isolation, orbiting no parent star. It is believed rogue planets may actually outnumber stars in our galaxy!</p>
+          <span class="click-reveal-hint-back">Click to Return</span>
+        </div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer-archive">Data compiled from NASA Exoplanet Archive | Educational Use Only</p>
+      <p>&copy; 2026 Cosmic Exoplanet Exhibition. Designed with absolute precision to stimulate astronomical education.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Star Canvas Background
+    const canvas = document.getElementById('stars-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      
+      function initStars() {
+        const dpr = window.devicePixelRatio || 1;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+        
+        stars = [];
+        const numStars = Math.min((width * height) / 9000, 180);
+        const starColors = ['#00d4ff', '#9b59ff', '#00ffcc', '#ff7b35', '#ffffff'];
+        
+        for (let i = 0; i < numStars; i++) {
+          stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 1.6 + 0.4,
+            speed: Math.random() * 0.04 + 0.01,
+            color: starColors[Math.floor(Math.random() * starColors.length)],
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+      
+      function drawStars() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        ctx.clearRect(0, 0, width, height);
+        
+        stars.forEach(star => {
+          star.phase += star.speed;
+          const alpha = Math.sin(star.phase) * 0.4 + 0.6;
+          
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fillStyle = star.color;
+          ctx.globalAlpha = alpha;
+          ctx.fill();
+        });
+        
+        requestAnimationFrame(drawStars);
+      }
+      
+      initStars();
+      drawStars();
+      window.addEventListener('resize', initStars);
+    }
+
+    // Toggle Details logic
+    function toggleDetails(pId) {
+      const panel = document.getElementById('details-' + pId);
+      const btn = document.getElementById('expand-btn-' + pId);
+      if (!panel || !btn) return;
+      
+      panel.classList.toggle('collapsed');
+      
+      if (panel.classList.contains('collapsed')) {
+        btn.innerHTML = 'Learn More <span class="arrow">↓</span>';
+        btn.classList.remove('active');
+        // smooth scroll back up if element is fully hidden
+      } else {
+        btn.innerHTML = 'Collapse <span class="arrow">↑</span>';
+        btn.classList.add('active');
+      }
+    }
+
+    // Flip Trivia Cards
+    function flipTriviaCard(card) {
+      card.classList.toggle('flipped');
+    }
+
+    // Image fallback handling
+    function handleImageError(imgNode, planetName, fallbackGrad) {
+      const container = imgNode.parentElement;
+      if (!container) return;
+      imgNode.style.display = 'none';
+      const fallbackOverlay = container.querySelector('.image-overlay-fallback');
+      if (fallbackOverlay) {
+        fallbackOverlay.style.opacity = '1';
+      }
+    }
+
+    // IntersectionObserver scroll reveals
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add('revealed'));
+    }
+  </script>
+</body>
+</html>
